@@ -1,0 +1,183 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+h2, h3 {
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    padding: 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.control-group label {
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.control-group input[type="number"],
+.control-group select,
+.control-group input[type="text"] {
+    padding: 5px;
+    font-size: 0.9em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.control-group button {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.control-group button:hover {
+    background-color: #0056b3;
+}
+
+.control-group-inline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.adsr-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+}
+
+.visualizer {
+    padding: 20px;
+    text-align: center;
+}
+
+canvas {
+    background-color: #222;
+    border: 1px solid #ddd;
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    margin: 0 auto;
+}
+
+button#generateSound,
+button#stopSound,
+button#resetDefaults {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 4px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+}
+
+button#generateSound:hover,
+button#stopSound:hover,
+button#resetDefaults:hover {
+    background-color: #1e7e34;
+}
+
+button#stopSound {
+    background-color: #dc3545;
+}
+
+button#stopSound:hover {
+    background-color: #bd2130;
+}
+
+button#resetDefaults {
+    background-color: #ffc107;
+    color: #000;
+}
+
+button#resetDefaults:hover {
+    background-color: #e0a800;
+}
+
+/* Estilos para el botón deshabilitado */
+#generateSound:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Estilos para la sección de presets */
+.presets-section {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+.preset-selector {
+    margin-bottom: 20px;
+}
+
+.preset-selector select {
+    padding: 8px;
+    font-size: 1em;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 200px;
+}
+
+.preset-group {
+    display: none; /* Ocultar todos los grupos por defecto */
+}
+
+.preset-group.active {
+    display: block; /* Mostrar solo el grupo activo */
+}
+
+.preset-group h4 {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
+
+.preset-btn {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.preset-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.preset-btn:last-child {
+    margin-bottom: 0;
+}

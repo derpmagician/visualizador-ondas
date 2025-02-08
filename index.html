@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Sonidos Avanzado</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="scripts/script.js"></script>
+    <script type="module" src="scripts/dibujaonda.js"></script>
+</head>
+<body>
+    <div class="controls">
+        <h2>Controles de Sonido</h2>
+
+        <div class="control-group">
+            <label for="volume">Volumen:</label>
+            <input type="number" id="volume" min="0" max="1" step="0.01" value="0.5">
+        </div>
+
+        <div class="control-group">
+            <label for="oscillatorType">Tipo de Oscilador:</label>
+            <select id="oscillatorType">
+                <option value="sine">Seno</option>
+                <option value="square">Cuadrado</option>
+                <option value="sawtooth">Sierra</option>
+                <option value="triangle">Triángulo</option>
+                <option value="custom">Personalizado</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label for="filterType">Tipo de Filtro:</label>
+            <select id="filterType">
+                <option value="lowpass">Pasa Bajos</option>
+                <option value="highpass">Pasa Altos</option>
+                <option value="bandpass">Pasa Banda</option>
+                <option value="notch">Rechaza Banda (Notch)</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label for="amplitude">Amplitud:</label>
+            <input type="number" id="amplitude" min="0" max="1" step="0.01" value="0.5">
+        </div>
+
+        <div class="control-group">
+            <label for="frequency">Frecuencia (Hz):</label>
+            <input type="number" id="frequency" value="440">
+        </div>
+
+        <div class="control-group">
+            <label for="duration">Duración (segundos):</label>
+            <input type="number" id="duration" value="2" min="0.1" step="0.1">
+        </div>
+
+        <div class="control-group">
+            <label for="reverb">Reverb:</label>
+            <input type="number" id="reverb" min="0" max="1" step="0.01" value="0">
+        </div>
+
+        <div class="control-group">
+            <label for="distortion">Distorsión:</label>
+            <input type="number" id="distortion" min="0" max="1" step="0.01" value="0">
+        </div>
+
+        <div class="control-group" id="customWaveformSection" style="display: none;">
+            <h3>Crear Oscilador Personalizado</h3>
+            <label for="customWaveform">Valores de la Forma de Onda (separados por comas):</label>
+            <input type="text" id="customWaveform" placeholder="Ejemplo: 0, 1, 0, -1">
+            <button id="applyCustomWaveform">Aplicar Oscilador Personalizado</button>
+        </div>
+
+        <div class="control-group adsr-controls">
+            <h3>Envolvente ADSR</h3>
+            <div class="control-group-inline">
+                <label for="attack">Attack:</label>
+                <input type="number" id="attack" min="0" max="1" step="0.01" value="0.1">
+            </div>
+            <div class="control-group-inline">
+                <label for="decay">Decay:</label>
+                <input type="number" id="decay" min="0" max="1" step="0.01" value="0.3">
+            </div>
+            <div class="control-group-inline">
+                <label for="sustain">Sustain:</label>
+                <input type="number" id="sustain" min="0" max="1" step="0.01" value="0.7">
+            </div>
+            <div class="control-group-inline">
+                <label for="release">Release:</label>
+                <input type="number" id="release" min="0" max="1" step="0.01" value="0.5">
+            </div>
+        </div>
+
+
+        
+
+        
+    </div>
+
+    <div class="visualizer">
+                <!-- Reemplazar la sección de presets actual con esto -->
+                <div class="presets-section">
+                    <h3>Presets de Sonido</h3>
+                    <div class="preset-selector">
+                        <label for="presetCategory">Categoría:</label>
+                        <select id="presetCategory">
+                            <option value="basic">Instrumentos Básicos</option>
+                            <option value="effects">Efectos de Sonido</option>
+                            <option value="synth">Sintetizadores</option>
+                            <option value="special">Efectos Especiales</option>
+                            <option value="nature">Sonidos Naturales</option>
+                            <option value="animals">Sonidos de Animales</option>
+                            <option value="percussion">Percusión</option>
+                            <option value="ambient">Ambientales</option>
+                        </select>
+                    </div>
+                    
+                    <div class="preset-buttons">
+                        <!-- Instrumentos básicos -->
+                        <div class="preset-group" data-category="basic">
+                            <button class="preset-btn" data-preset="bass">Bajo</button>
+                            <button class="preset-btn" data-preset="bell">Campana</button>
+                            <button class="preset-btn" data-preset="organ">Órgano</button>
+                            <button class="preset-btn" data-preset="flute">Flauta</button>
+                            <button class="preset-btn" data-preset="violin">Violín</button>
+                            <button class="preset-btn" data-preset="piano">Piano</button>
+                            <button class="preset-btn" data-preset="guitar">Guitarra</button>
+                        </div>
+                        
+                        <!-- Efectos de sonido -->
+                        <div class="preset-group" data-category="effects">
+                            <button class="preset-btn" data-preset="siren">Sirena</button>
+                            <button class="preset-btn" data-preset="laser">Láser</button>
+                            <button class="preset-btn" data-preset="space_wind">Viento Espacial</button>
+                            <button class="preset-btn" data-preset="submarine">Submarino</button>
+                            <button class="preset-btn" data-preset="thunder">Trueno</button>
+                            <button class="preset-btn" data-preset="water_drop">Gota de Agua</button>
+                            <button class="preset-btn" data-preset="explosion">Explosión</button>
+                        </div>
+                        
+                        <!-- Sintetizadores -->
+                        <div class="preset-group" data-category="synth">
+                            <button class="preset-btn" data-preset="synth_lead">Sintetizador Lead</button>
+                            <button class="preset-btn" data-preset="deep_bass">Bajo Profundo</button>
+                            <button class="preset-btn" data-preset="crystal">Cristal</button>
+                            <button class="preset-btn" data-preset="retro_game">Retro Game</button>
+                            <button class="preset-btn" data-preset="wobble">Wobble Bass</button>
+                            <button class="preset-btn" data-preset="pad">Pad Atmosférico</button>
+                        </div>
+                        
+                        <!-- Efectos especiales -->
+                        <div class="preset-group" data-category="special">
+                            <button class="preset-btn" data-preset="robot_voice">Voz Robot</button>
+                            <button class="preset-btn" data-preset="alien_signal">Señal Alien</button>
+                            <button class="preset-btn" data-preset="horror_ambient">Ambiente Horror</button>
+                            <button class="preset-btn" data-preset="telephone">Teléfono</button>
+                            <button class="preset-btn" data-preset="ufo">OVNI</button>
+                            <button class="preset-btn" data-preset="portal">Portal</button>
+                        </div>
+        
+                        <!-- Sonidos naturales -->
+                        <div class="preset-group" data-category="nature">
+                            <button class="preset-btn" data-preset="rain">Lluvia</button>
+                            <button class="preset-btn" data-preset="wind">Viento</button>
+                            <button class="preset-btn" data-preset="stream">Arroyo</button>
+                            <button class="preset-btn" data-preset="fire">Fuego</button>
+                            <button class="preset-btn" data-preset="waves">Olas</button>
+                        </div>
+        
+                        <!-- Sonidos de animales -->
+                        <div class="preset-group" data-category="animals">
+                            <button class="preset-btn" data-preset="cat_meow">Maullido</button>
+                            <button class="preset-btn" data-preset="dog_bark">Ladrido</button>
+                            <button class="preset-btn" data-preset="bird_chirp">Pájaro</button>
+                            <button class="preset-btn" data-preset="wolf_howl">Aullido</button>
+                            <button class="preset-btn" data-preset="cricket">Grillo</button>
+                        </div>
+        
+                        <!-- Percusión -->
+                        <div class="preset-group" data-category="percussion">
+                            <button class="preset-btn" data-preset="drum">Tambor</button>
+                            <button class="preset-btn" data-preset="kick">Bombo</button>
+                            <button class="preset-btn" data-preset="snare">Caja</button>
+                            <button class="preset-btn" data-preset="hihat">Hi-Hat</button>
+                            <button class="preset-btn" data-preset="cymbal">Platillo</button>
+                        </div>
+        
+                        <!-- Ambientales -->
+                        <div class="preset-group" data-category="ambient">
+                            <button class="preset-btn" data-preset="drone">Drone</button>
+                            <button class="preset-btn" data-preset="atmosphere">Atmósfera</button>
+                            <button class="preset-btn" data-preset="texture">Textura</button>
+                            <button class="preset-btn" data-preset="space_ambient">Espacio</button>
+                            <button class="preset-btn" data-preset="underwater">Submarino</button>
+                        </div>
+                    </div>
+                </div>
+        <button id="generateSound">Generar Sonido</button>
+        <button id="stopSound">Detener Sonido</button>
+        <button id="resetDefaults">Restablecer</button>
+        <h2>Visualización de Onda en Tiempo Real</h2>
+        <canvas id="waveformCanvas" width="800" height="200"></canvas>
+    </div>
+
+    
+</body>
+</html>
