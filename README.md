@@ -1,6 +1,6 @@
 # Sintetizador Web
 
-Un sintetizador web interactivo construido con Web Audio API que permite crear y experimentar con diferentes sonidos.
+Un sintetizador web modular construido con Web Audio API que permite crear y experimentar con diferentes sonidos.
 
 ## Características
 
@@ -8,8 +8,7 @@ Un sintetizador web interactivo construido con Web Audio API que permite crear y
 - Control de volumen
 - Selección de tipo de oscilador (Seno, Cuadrado, Sierra, Triángulo)
 - Filtros de audio (Pasa Bajos, Pasa Altos, Pasa Banda, Rechaza Banda)
-- Control de amplitud
-- Control de frecuencia
+- Control de amplitud y frecuencia
 - Control de duración
 - Efectos de reverb y distorsión
 
@@ -20,31 +19,21 @@ Un sintetizador web interactivo construido con Web Audio API que permite crear y
 - Release (Liberación)
 
 ### Presets de Sonido
-Incluye múltiples categorías de sonidos predefinidos:
-- Instrumentos Básicos (Bajo, Campana, Órgano, Flauta, etc.)
-- Efectos de Sonido (Sirena, Láser, Viento Espacial, etc.)
-- Sintetizadores (Lead, Bass, Crystal, Retro Game, etc.)
-- Efectos Especiales (Voz Robot, Señal Alien, etc.)
-- Sonidos Naturales (Lluvia, Viento, Arroyo, etc.)
-- Sonidos de Animales (Maullido, Ladrido, Pájaro, etc.)
-- Percusión (Tambor, Bombo, Hi-Hat, etc.)
-- Ambientales (Drone, Atmósfera, Textura, etc.)
+Incluye múltiples categorías predefinidas:
+- Instrumentos Básicos
+- Efectos de Sonido
+- Sintetizadores
+- Efectos Especiales
+- Sonidos Naturales
+- Sonidos de Animales
+- Percusión
+- Ambientales
 
-### Oscilador Personalizado
-- Creación de formas de onda personalizadas mediante armónicos
-- Previsualización de la forma de onda
-- Presets de formas de onda comunes
-- Visualización en tiempo real
-
-### Piano Virtual
-- Teclado interactivo con múltiples octavas
-- Teclas blancas y negras
-- Control mediante ratón y teclado
-- Integración con los parámetros del sintetizador
-
-### Visualización
+### Características Avanzadas
+- Oscilador personalizado con armónicos
+- Piano virtual interactivo
 - Visualización en tiempo real de la forma de onda
-- Canvas para mostrar la señal de audio
+- Interfaz modular y responsive
 
 ## Tecnologías Utilizadas
 - Web Audio API
@@ -56,10 +45,27 @@ Incluye múltiples categorías de sonidos predefinidos:
 ## Estructura del Proyecto
 proyecto/
 ├── index.html
+├── style.css
 ├── scripts/
-│ ├── script.js
-│ └── dibujaonda.js
-└── README.md
+│ ├── main.js # Punto de entrada principal
+│ ├── components/
+│ │ ├── AudioEngine.js # Motor de audio principal
+│ │ ├── Controls.js # Manejo de controles UI
+│ │ ├── CustomOscillator.js # Oscilador personalizado
+│ │ ├── Piano.js # Componente del piano
+│ │ └── Visualizer.js # Visualización de ondas
+│ ├── utils/
+│ │ ├── audioUtils.js # Funciones de utilidad para audio
+│ │ └── uiUtils.js # Funciones de utilidad para UI
+│ └── config/
+│ ├── presets.js # Configuraciones de presets
+│ └── constants.js # Constantes globales
+└── styles/
+├── components/
+│ ├── controls.css
+│ ├── piano.css
+│ └── visualizer.css
+└── main.css
 
 ## Descripción de los archivos
 - `index.html`: Página principal que muestra el visualizador
