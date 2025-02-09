@@ -64,10 +64,34 @@
         </div>
 
         <div class="control-group" id="customWaveformSection" style="display: none;">
-            <h3>Crear Oscilador Personalizado</h3>
-            <label for="customWaveform">Valores de la Forma de Onda (separados por comas):</label>
-            <input type="text" id="customWaveform" placeholder="Ejemplo: 0, 1, 0, -1">
-            <button id="applyCustomWaveform">Aplicar Oscilador Personalizado</button>
+            <h3>Oscilador Personalizado</h3>
+            <div class="custom-waveform-controls">
+                <div class="waveform-input">
+                    <label for="customWaveform">Armónicos (valores entre -1 y 1):</label>
+                    <input type="text" id="customWaveform" 
+                           placeholder="Ejemplo: 1, 0.5, 0.3, 0.2"
+                           title="Ingresa valores entre -1 y 1 separados por comas">
+                    <small class="help-text">Ingresa los coeficientes de los armónicos separados por comas. 
+                        El primer valor representa la frecuencia fundamental, los siguientes son los armónicos.</small>
+                </div>
+                <div class="waveform-preview">
+                    <canvas id="waveformPreview" width="300" height="100"></canvas>
+                </div>
+                <div class="waveform-buttons">
+                    <button id="applyCustomWaveform" disabled>Aplicar Forma de Onda</button>
+                    <button id="previewWaveform">Previsualizar</button>
+                </div>
+                <div class="waveform-presets">
+                    <label for="waveformPreset">Presets de forma de onda:</label>
+                    <select id="waveformPreset">
+                        <option value="">Seleccionar preset...</option>
+                        <option value="square">Cuadrada aproximada</option>
+                        <option value="sawtooth">Sierra aproximada</option>
+                        <option value="triangle">Triangular aproximada</option>
+                        <option value="organ">Órgano</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
         <div class="control-group adsr-controls">
@@ -99,9 +123,7 @@
     <div class="visualizer">
                 <!-- Reemplazar la sección de presets actual con esto -->
                 <div class="presets-section">
-                    <h3>Presets de Sonido</h3>
                     <div class="preset-selector">
-                        <label for="presetCategory">Categoría:</label>
                         <select id="presetCategory">
                             <option value="basic">Instrumentos Básicos</option>
                             <option value="effects">Efectos de Sonido</option>
@@ -199,6 +221,12 @@
         <button id="resetDefaults">Restablecer</button>
         <h2>Visualización de Onda en Tiempo Real</h2>
         <canvas id="waveformCanvas" width="800" height="200"></canvas>
+    </div>
+
+    <div class="piano-container">
+        <div id="piano">
+            <!-- Las teclas se generarán con JavaScript -->
+        </div>
     </div>
 
     

@@ -1,26 +1,57 @@
-# Visualizador de Ondas
+# Sintetizador Web
 
-## Descripción
-Este proyecto es un visualizador interactivo de ondas que permite representar gráficamente diferentes tipos de ondas utilizando JavaScript y HTML5 Canvas. Permite visualizar y manipular ondas en tiempo real.
+Un sintetizador web interactivo construido con Web Audio API que permite crear y experimentar con diferentes sonidos.
 
-## Instalación
-1. Clona este repositorio
+## Características
 
-bash
-git clone https://github.com/usuario/visualizador-ondas.git
+### Controles Básicos
+- Control de volumen
+- Selección de tipo de oscilador (Seno, Cuadrado, Sierra, Triángulo)
+- Filtros de audio (Pasa Bajos, Pasa Altos, Pasa Banda, Rechaza Banda)
+- Control de amplitud
+- Control de frecuencia
+- Control de duración
+- Efectos de reverb y distorsión
 
-2. Navega al directorio del proyecto
+### Envolvente ADSR
+- Attack (Ataque)
+- Decay (Decaimiento)
+- Sustain (Sostenimiento)
+- Release (Liberación)
 
-bash
-cd proyecto
+### Presets de Sonido
+Incluye múltiples categorías de sonidos predefinidos:
+- Instrumentos Básicos (Bajo, Campana, Órgano, Flauta, etc.)
+- Efectos de Sonido (Sirena, Láser, Viento Espacial, etc.)
+- Sintetizadores (Lead, Bass, Crystal, Retro Game, etc.)
+- Efectos Especiales (Voz Robot, Señal Alien, etc.)
+- Sonidos Naturales (Lluvia, Viento, Arroyo, etc.)
+- Sonidos de Animales (Maullido, Ladrido, Pájaro, etc.)
+- Percusión (Tambor, Bombo, Hi-Hat, etc.)
+- Ambientales (Drone, Atmósfera, Textura, etc.)
 
-2. Abre el archivo `index.html` en tu navegador web preferido
+### Oscilador Personalizado
+- Creación de formas de onda personalizadas mediante armónicos
+- Previsualización de la forma de onda
+- Presets de formas de onda comunes
+- Visualización en tiempo real
 
-## Uso
-El visualizador se puede utilizar de las siguientes maneras:
-- Abre el archivo index.html en tu navegador
-- Interactúa con los controles para modificar los parámetros de la onda
-- Observa cómo se actualiza la visualización en tiempo real
+### Piano Virtual
+- Teclado interactivo con múltiples octavas
+- Teclas blancas y negras
+- Control mediante ratón y teclado
+- Integración con los parámetros del sintetizador
+
+### Visualización
+- Visualización en tiempo real de la forma de onda
+- Canvas para mostrar la señal de audio
+
+## Tecnologías Utilizadas
+- Web Audio API
+- JavaScript (ES6+)
+- HTML5 Canvas
+- CSS3
+- Módulos ES6
 
 ## Estructura del Proyecto
 proyecto/
@@ -42,11 +73,6 @@ Si deseas contribuir al proyecto, por favor:
 3. Haz commit de tus cambios (`git commit -m 'Agrega nueva característica'`)
 4. Haz Push a la rama (`git push origin feature/NuevaCaracteristica`)
 5. Abre un Pull Request
-
-## Tecnologías Utilizadas
-- HTML5
-- JavaScript
-- Canvas API
 
 ## Licencia
 Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.

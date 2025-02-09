@@ -8,6 +8,9 @@ let isPlaying = false;
 // Importar la constante PRESETS desde presets.js
 import { PRESETS } from './presets.js';
 
+// Importar la clase Piano
+import { Piano } from './piano.js';
+
 // Elementos del DOM
 const volumeControl = document.getElementById('volume');
 const oscillatorType = document.getElementById('oscillatorType');
@@ -29,6 +32,11 @@ const applyCustomWaveformButton = document.getElementById('applyCustomWaveform')
 
 // Importar la función de visualización desde dibujaonda.js
 import { visualizeWaveform } from './dibujaonda.js';
+
+// Configuración del piano
+const NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const START_OCTAVE = 3;
+const END_OCTAVE = 5;
 
 // Función para inicializar el audio
 function initializeAudio() {
@@ -159,13 +167,11 @@ function updateUIFromControls() {
 // Mostrar/ocultar la sección de oscilador personalizado
 oscillatorType.addEventListener('change', () => {
 	const customWaveformSection = document.getElementById('customWaveformSection');
-	if (oscillatorType.value === 'custom') {
-		customWaveformSection.style.display = 'block';
-		applyCustomWaveformButton.disabled = false;
-	} else {
-		customWaveformSection.style.display = 'none';
-		applyCustomWaveformButton.disabled = true;
-		// Limpiar la onda personalizada cuando se cambia a otro tipo
+	const isCustom = oscillatorType.value === 'custom';
+	
+	customWaveformSection.style.display = isCustom ? 'block' : 'none';
+	
+	if (!isCustom) {
 		window.customPeriodicWave = null;
 	}
 	updateUI();
@@ -315,6 +321,18 @@ document.addEventListener('DOMContentLoaded', function() {
 	// Mostrar el primer grupo de presets
 	const firstCategory = document.getElementById('presetCategory').value;
 	document.querySelector(`.preset-group[data-category="${firstCategory}"]`).classList.add('active');
+
+	// Crear objeto con los controles del sintetizador
+	const synthControls = {
+		oscillatorType: document.getElementById('oscillatorType'),
+		attack: document.getElementById('attack'),
+		decay: document.getElementById('decay'),
+		sustain: document.getElementById('sustain'),
+		release: document.getElementById('release')
+	};
+
+	// Inicializar el piano
+	const piano = new Piano(audioContext, synthControls);
 });
 
 function applyPreset(presetName) {
@@ -344,4 +362,153 @@ function applyPreset(presetName) {
 	// Ocultar sección de forma de onda personalizada si no es custom
 	const customWaveformSection = document.getElementById('customWaveformSection');
 	customWaveformSection.style.display = oscillatorType.value === 'custom' ? 'block' : 'none';
+}
+
+class CustomWaveformManager {
+	constructor(audioContext) {
+		this.audioContext = audioContext;
+		this.waveformInput = document.getElementById('customWaveform');
+		this.applyButton = document.getElementById('applyCustomWaveform');
+		this.previewButton = document.getElementById('previewWaveform');
+		this.presetSelect = document.getElementById('waveformPreset');
+		this.previewCanvas = document.getElementById('waveformPreview');
+		this.ctx = this.previewCanvas.getContext('2d');
+
+		this.setupEventListeners();
+		this.setupPresets();
+	}
+
+	setupEventListeners() {
+		this.waveformInput.addEventListener('input', () => this.validateInput());
+		this.applyButton.addEventListener('click', () => this.applyWaveform());
+		this.previewButton.addEventListener('click', () => this.previewWaveform());
+		this.presetSelect.addEventListener('change', () => this.applyPreset());
+	}
+
+	setupPresets() {
+		this.waveformPresets = {
+			square: [1, 0, 0.33, 0, 0.2, 0, 0.14, 0, 0.11],
+			sawtooth: [0.5, 0.25, 0.125, 0.06, 0.03, 0.015],
+			triangle: [1, 0, -0.11, 0, 0.04, 0, -0.02],
+			organ: [0.5, 1, 0.3, 0.2, 0.15, 0.1, 0.05]
+		};
+	}
+
+	validateInput() {
+		const values = this.parseWaveformValues();
+		const isValid = values !== null && values.every(v => Math.abs(v) <= 1);
+		this.applyButton.disabled = !isValid;
+		return isValid;
+	}
+
+	parseWaveformValues() {
+		try {
+			const values = this.waveformInput.value
+				.split(',')
+				.map(v => parseFloat(v.trim()))
+				.filter(v => !isNaN(v));
+			return values.length > 0 ? values : null;
+		} catch {
+			return null;
+		}
+	}
+
+	createPeriodicWave(harmonics) {
+		// Crear arrays para las partes real e imaginaria
+		const real = new Float32Array(harmonics.length);
+		const imag = new Float32Array(harmonics.length);
+		
+		// Configurar los coeficientes
+		real[0] = 0; // DC offset
+		for (let i = 1; i < harmonics.length; i++) {
+			real[i] = harmonics[i];
+			imag[i] = 0;
+		}
+
+		try {
+			return this.audioContext.createPeriodicWave(real, imag, {
+				disableNormalization: false
+			});
+		} catch (error) {
+			console.error('Error al crear la onda periódica:', error);
+			return null;
+		}
+	}
+
+	drawWaveform(values) {
+		const canvas = this.previewCanvas;
+		const ctx = this.ctx;
+		const width = canvas.width;
+		const height = canvas.height;
+		const centerY = height / 2;
+
+		// Limpiar el canvas
+		ctx.clearRect(0, 0, width, height);
+
+		// Dibujar línea central
+		ctx.beginPath();
+		ctx.strokeStyle = '#ccc';
+		ctx.moveTo(0, centerY);
+		ctx.lineTo(width, centerY);
+		ctx.stroke();
+
+		// Dibujar la forma de onda
+		ctx.beginPath();
+		ctx.strokeStyle = '#2196F3';
+		ctx.lineWidth = 2;
+
+		for (let x = 0; x < width; x++) {
+			const t = (x / width) * Math.PI * 2;
+			let y = 0;
+			
+			// Sumar todos los armónicos
+			for (let i = 0; i < values.length; i++) {
+				y += values[i] * Math.sin((i + 1) * t);
+			}
+
+			// Normalizar y dibujar
+			y = centerY - (y * height / 4);
+			if (x === 0) {
+				ctx.moveTo(x, y);
+			} else {
+				ctx.lineTo(x, y);
+			}
+		}
+		ctx.stroke();
+	}
+
+	previewWaveform() {
+		const values = this.parseWaveformValues();
+		if (values) {
+			this.drawWaveform(values);
+		}
+	}
+
+	applyWaveform() {
+		const values = this.parseWaveformValues();
+		if (!values) return;
+
+		const periodicWave = this.createPeriodicWave(values);
+		if (periodicWave) {
+			window.customPeriodicWave = periodicWave;
+			// Si hay un oscilador activo, aplicar la nueva forma de onda
+			if (window.oscillator && window.isPlaying) {
+				window.oscillator.setPeriodicWave(periodicWave);
+			}
+		}
+	}
+
+	applyPreset() {
+		const selectedPreset = this.presetSelect.value;
+		if (selectedPreset && this.waveformPresets[selectedPreset]) {
+			this.waveformInput.value = this.waveformPresets[selectedPreset].join(', ');
+			this.validateInput();
+			this.previewWaveform();
+		}
+	}
+}
+
+function setWaveform(values) {
+	customWaveformInput.value = values;
+	applyCustomWaveform();
 }
