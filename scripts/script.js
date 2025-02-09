@@ -11,6 +11,9 @@ import { PRESETS } from './presets.js';
 // Importar la clase Piano
 import { Piano } from './piano.js';
 
+// Importar la clase CustomOscillator
+import { CustomOscillator } from './customOscillator.js';
+
 // Elementos del DOM
 const volumeControl = document.getElementById('volume');
 const oscillatorType = document.getElementById('oscillatorType');
@@ -333,6 +336,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// Inicializar el piano
 	const piano = new Piano(audioContext, synthControls);
+
+	// Inicializar el oscilador personalizado
+	const customOscillator = new CustomOscillator(audioContext);
+
+	// Actualizar el event listener del tipo de oscilador
+	oscillatorType.addEventListener('change', function() {
+		const customWaveformSection = document.getElementById('customWaveformSection');
+		const isCustom = this.value === 'custom';
+		
+		customWaveformSection.style.display = isCustom ? 'block' : 'none';
+		
+		if (!isCustom) {
+			window.customPeriodicWave = null;
+		}
+	});
 });
 
 function applyPreset(presetName) {
