@@ -5,14 +5,14 @@ let audioContext = new (window.AudioContext || window.webkitAudioContext)();
 let oscillator, gainNode, filter, reverb, distortion;
 let isPlaying = false;
 
-// Importar la constante PRESETS desde presets.js
-import { PRESETS } from './presets.js';
+// Importar la constante PRESETS desde config/presets.js
+import { PRESETS } from './config/presets.js';
 
 // Importar la clase Piano
-import { Piano } from './piano.js';
+import { Piano } from './components/piano.js';
 
 // Importar la clase CustomOscillator
-import { CustomOscillator } from './customOscillator.js';
+import { CustomOscillator } from './components/customOscillator.js';
 
 // Elementos del DOM
 const volumeControl = document.getElementById('volume');

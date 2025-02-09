@@ -51,21 +51,15 @@ proyecto/
 │ ├── components/
 │ │ ├── AudioEngine.js # Motor de audio principal
 │ │ ├── Controls.js # Manejo de controles UI
-│ │ ├── CustomOscillator.js # Oscilador personalizado
-│ │ ├── Piano.js # Componente del piano
-│ │ └── Visualizer.js # Visualización de ondas
+│ │ ├── customOscillator.js # Oscilador personalizado
+│ │ ├── piano.js # Componente del piano
 │ ├── utils/
 │ │ ├── audioUtils.js # Funciones de utilidad para audio
 │ │ └── uiUtils.js # Funciones de utilidad para UI
 │ └── config/
 │ ├── presets.js # Configuraciones de presets
-│ └── constants.js # Constantes globales
 └── styles/
-├── components/
-│ ├── controls.css
-│ ├── piano.css
-│ └── visualizer.css
-└── main.css
+
 
 ## Descripción de los archivos
 - `index.html`: Página principal que muestra el visualizador
